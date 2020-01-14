@@ -1043,13 +1043,6 @@ while True:
 			for i in range(bossNum):
 				################ 보스 컷처리 ################ 
 				if message.content.startswith(bossData[i][0] +'컷'):
-					
-				datelist = []
-				datelist2 = []
-				temp_bossTime1 = []
-				ouput_bossData = []
-				aa = []
-				
 					if hello.find('  ') != -1 :
 						bossData[i][6] = hello[hello.find('  ')+2:]
 						hello = hello[:hello.find('  ')]
@@ -1101,89 +1094,7 @@ while True:
 							description= '```다음 ' + bossData[i][0] + ' ' + bossTimeString[i] + '입니다.```',
 							color=0xff0000
 							)
-				await client.get_channel(channel).send( embed=embed, tts=False)
-				
-				for i in range(bossNum):
-					if bossMungFlag[i] == True :
-						datelist2.append(tmp_bossTime[i])
-					else :
-						datelist2.append(bossTime[i])
-
-				for i in range(fixed_bossNum):
-					if fixed_bossTime[i] < datetime.datetime.now() + datetime.timedelta(hours=int(basicSetting[0])+3):
-						datelist2.append(fixed_bossTime[i])
-
-				datelist = list(set(datelist2))
-
-				for i in range(bossNum):
-					if bossTimeString[i] == '99:99:99' and bossMungFlag[i] != True :
-						temp_bossTime1.append(bossData[i][0])
-					else :
-						aa.append(bossData[i][0])		                     #output_bossData[0] : 보스명
-						if bossMungFlag[i] == True :
-							aa.append(tmp_bossTime[i])                       #output_bossData[1] : 시간
-							aa.append(tmp_bossTime[i].strftime('%H:%M:%S'))  #output_bossData[2] : 시간(00:00:00)
-							aa.append('-')	                                 #output_bossData[3] : -
-						else :
-							aa.append(bossTime[i])                           #output_bossData[1] : 시간
-							aa.append(bossTime[i].strftime('%H:%M:%S'))      #output_bossData[2] : 시간(00:00:00)
-							aa.append('+')	                                 #output_bossData[3] : +
-						aa.append(bossData[i][2])                            #output_bossData[4] : 멍/미입력 보스
-						aa.append(bossMungCnt[i])	                         #output_bossData[5] : 멍/미입력횟수
-						aa.append(bossData[i][6])	                         #output_bossData[6] : 메세지
-						ouput_bossData.append(aa)
-						aa = []
-
-				for i in range(fixed_bossNum):
-					aa.append(fixed_bossData[i][0])                      #output_bossData[0] : 보스명
-					aa.append(fixed_bossTime[i])                         #output_bossData[1] : 시간
-					aa.append(fixed_bossTime[i].strftime('%H:%M:%S'))    #output_bossData[2] : 시간(00:00:00)
-					aa.append('@')                                       #output_bossData[3] : @
-					aa.append(0)                                         #output_bossData[4] : 멍/미입력 보스
-					aa.append(0)                                         #output_bossData[5] : 멍/미입력횟수
-					aa.append("")                                        #output_bossData[6] : 메세지
-					ouput_bossData.append(aa)
-					aa = []
-
-				if len(temp_bossTime1) != 0:
-					temp_bossTimeSTR1 = ','.join(map(str, temp_bossTime1))
-					temp_bossTimeSTR1 = '```fix\n' + temp_bossTimeSTR1 + '\n```'
-				else:
-					temp_bossTimeSTR1 = '``` ```'
-							
-				information = ''
-				for timestring in sorted(datelist):
-					for i in range(len(ouput_bossData)):
-						if timestring == ouput_bossData[i][1]:
-							if ouput_bossData[i][4] == '0' :
-								if ouput_bossData[i][5] == 0 :
-									information += ouput_bossData[i][3] + ' ' + ouput_bossData[i][2] + ' : ' + ouput_bossData[i][0] + ' ' + ouput_bossData[i][6] + '\n'
-								else :
-									information += ouput_bossData[i][3] + ' ' + ouput_bossData[i][2] + ' : ' + ouput_bossData[i][0] + ' (미 ' + str(ouput_bossData[i][5]) + '회)' + ' ' + ouput_bossData[i][6] + '\n'
-							else : 
-								if ouput_bossData[i][5] == 0 :
-									information += ouput_bossData[i][3] + ' ' + ouput_bossData[i][2] + ' : ' + ouput_bossData[i][0] + ' ' + ouput_bossData[i][6] + '\n'
-								else :
-									information += ouput_bossData[i][3] + ' ' + ouput_bossData[i][2] + ' : ' + ouput_bossData[i][0] + ' (멍 ' + str(ouput_bossData[i][5]) + '회)' + ' ' + ouput_bossData[i][6] + '\n'
-			
-				if len(information) != 0:
-					information = "```diff\n" + information + "\n```"
-				else :
-					information = '``` ```'
-
-				embed = discord.Embed(
-						title = "----- 보스탐 정보 -----",
-						description= information,
-						color=0x0000ff
-						)
-				embed.add_field(
-						name="----- 미예약보스 -----",
-						value= temp_bossTimeSTR1,
-						inline = False
-						)
-			
-				await client.get_channel(channel).send( embed=embed, tts=False)
-				await dbSave(				
+					await client.get_channel(channel).send(embed=embed, tts=False)
 
 				################ 보스 멍 처리 ################ 
 
