@@ -1,3 +1,4 @@
+websockets==6.0
 discord
 discord.py[voice]
 gtts
